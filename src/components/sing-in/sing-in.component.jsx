@@ -8,7 +8,9 @@ import {
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./sing-in.styles.scss";
+/* use context  */
 const SingInForm = () => {
+  /* GET form fields values */
   const defaultFormFields = {
     email: "",
     password: "",
@@ -27,11 +29,10 @@ const SingInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+       await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
       resetFormFields();
     } catch (err) {
       switch (err.code) {
@@ -46,10 +47,16 @@ const SingInForm = () => {
       }
     }
   };
+
+    /* use context for the signed in user */
+
   const singinWithGoogle = async () => {
-    let { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+     await signInWithGooglePopup();
+    /*store current signedin user */
+    
+    // setCurrentUser(user);
   };
+
 
   return (
     <div className="sing-up-container">

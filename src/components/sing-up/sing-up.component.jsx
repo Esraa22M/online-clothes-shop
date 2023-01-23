@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState  } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -6,16 +6,17 @@ import {
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import './sing-up.styles.scss';
+import { UserContext } from "../../contexts/user.context";
 const SingUpForm = () => {
   const defaultFormFields = {
-    emailName: "",
+    displayName: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { emailName, email, password, confirmPassword } = formFields;
+  const { displayName, email, password, confirmPassword } = formFields;
   const handleChange = (event) => {
     let { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
@@ -23,6 +24,7 @@ const SingUpForm = () => {
   let resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
@@ -31,7 +33,7 @@ const SingUpForm = () => {
     }
     try {
       let { user } = await createAuthUserWithEmailAndPassword(email, password);
-      const userDocRef = await createUserDocumentFromAuth(user, { emailName });
+      const userDocRef = await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
     } catch (err) {
       if (err.code === "auth/email-already-in-use")
@@ -39,6 +41,7 @@ const SingUpForm = () => {
       else console.log("user creation error ", err.code);
     }
   };
+  console.log('hit')
   return (
     <div className="sing-up-container">
       <h2>Don't have an account ?</h2>
@@ -48,7 +51,7 @@ const SingUpForm = () => {
           label={"Name"}
           type="text"
           name="emailName"
-          value={emailName}
+          value={displayName}
           onChange={handleChange}
         />
         <FormInput
