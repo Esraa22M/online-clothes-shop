@@ -1,5 +1,5 @@
 import CategoryList from "../../components/category-list/category-list.components";
-import {categories} from "../../utils/data/categories.utils";
+import {categories} from "../../utils/user-data/categories.utils";
 const Home = () => {
   
   return (

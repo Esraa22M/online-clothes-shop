@@ -4,8 +4,12 @@ import { useContext } from "react";
 import { ReactComponent as Crown } from "../../assets/crown.svg";
 import { sinOutUser } from "../../utils/firebase/firebase.utils";
 import "./navigation.styles.scss";
+import CartIcon from "../../components/cart-icon/cart-icon.components";
+import CartDropDown from "../../components/cart-drop-down/cart-drop-down.component";
+import { CartContext } from "../../contexts/cart.context";
 const Navigation = () => {
-  let {currentUser}= useContext(UserContext)
+  let { currentUser } = useContext(UserContext);
+  let { setIsCartOpen, iscartOpen } = useContext(CartContext);
   return (
     <>
       <div>
@@ -32,7 +36,11 @@ const Navigation = () => {
                 </Link>
               </li>
             )}
+            <li>
+              <CartIcon onClick={()=>setIsCartOpen(!iscartOpen)} />
+            </li>
           </ul>
+          {iscartOpen && <CartDropDown />}
         </nav>
       </div>
       <Outlet />
