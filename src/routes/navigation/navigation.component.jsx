@@ -3,45 +3,47 @@ import { UserContext } from "../../contexts/user.context";
 import { useContext } from "react";
 import { ReactComponent as Crown } from "../../assets/crown.svg";
 import { sinOutUser } from "../../utils/firebase/firebase.utils";
-import "./navigation.styles.scss";
+import "./navigation.styles.jsx";
 import CartIcon from "../../components/cart-icon/cart-icon.components";
 import CartDropDown from "../../components/cart-drop-down/cart-drop-down.component";
 import { CartContext } from "../../contexts/cart.context";
+import {
+  NavLinksContainer,
+  NavLink,
+  PrimaryNavigation,
+  LogoContainer,
+} from "./navigation.styles.jsx";
 const Navigation = () => {
   let { currentUser } = useContext(UserContext);
   let { setIsCartOpen, iscartOpen } = useContext(CartContext);
   return (
     <>
       <div>
-        <nav className="primary-navigation">
-          <Link className="logo-container" to="/">
+        <PrimaryNavigation>
+          <LogoContainer to="/">
             <Crown />
-          </Link>
-          <ul className="links-container">
+          </LogoContainer>
+          <NavLinksContainer>
             <li className="link-item">
-              <Link to="/shop" className="nav-link">
-                Shop
-              </Link>
+              <NavLink to="/shop">Shop</NavLink>
             </li>
             {currentUser ? (
               <li className="link-item">
-                <span className="nav-link" onClick={sinOutUser}>
+                <NavLink onClick={sinOutUser} as="span">
                   Sign out
-                </span>
+                </NavLink>
               </li>
             ) : (
               <li className="link-item">
-                <Link to="/auth" className="nav-link">
-                  Sign in
-                </Link>
+                <NavLink to="/auth">Sign in</NavLink>
               </li>
             )}
             <li>
-              <CartIcon onClick={()=>setIsCartOpen(!iscartOpen)} />
+              <CartIcon onClick={() => setIsCartOpen(!iscartOpen)} />
             </li>
-          </ul>
+          </NavLinksContainer>
           {iscartOpen && <CartDropDown />}
-        </nav>
+        </PrimaryNavigation>
       </div>
       <Outlet />
     </>
