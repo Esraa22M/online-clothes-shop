@@ -10,7 +10,16 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -75,4 +84,34 @@ export const sinOutUser = async () => await signOut(auth);
 /* onAuthStateChanged takes two parameters 
 auth and second parameter is callback
  is called whenever state changed*/
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth ,callback);
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
+
+/*------------------------upload shop data to firebase--------------------- */
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+  await batch.commit();
+  console.log("done");
+};
+
+/*-------------get products and categories from firebase--------- */
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const queryCollection = query(collectionRef);
+  /*fetch documents snapshot */
+  const querySnapShots = await getDocs(queryCollection);
+  const categoryMap = querySnapShots.docs.reduce((acc, currentDoc) => {
+    const { title , items} = currentDoc.data();
+    acc[title.toLowerCase()]= items;
+    return acc;
+  }, {});
+  return categoryMap
+};
