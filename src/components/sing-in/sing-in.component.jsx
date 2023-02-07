@@ -5,7 +5,7 @@ import {
   signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
 
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./sing-in.styles.scss";
 /* use context  */
@@ -29,10 +29,7 @@ const SingInForm = () => {
     event.preventDefault();
 
     try {
-       await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
     } catch (err) {
       switch (err.code) {
@@ -48,15 +45,14 @@ const SingInForm = () => {
     }
   };
 
-    /* use context for the signed in user */
+  /* use context for the signed in user */
 
   const singinWithGoogle = async () => {
-     await signInWithGooglePopup();
+    await signInWithGooglePopup();
     /*store current signedin user */
-    
+
     // setCurrentUser(user);
   };
-
 
   return (
     <div className="sing-up-container">
@@ -79,7 +75,11 @@ const SingInForm = () => {
         />
         <div className="buttons-container">
           <Button type="submit">Sing In</Button>
-          <Button onClick={singinWithGoogle} buttonType="google" type="button">
+          <Button
+            onClick={singinWithGoogle}
+            buttonType={BUTTON_TYPES_CLASSES["google"]}
+            type="button"
+          >
             google Sing In
           </Button>
         </div>

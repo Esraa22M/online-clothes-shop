@@ -1,10 +1,14 @@
 import { InvertedButton, GoogleSingIn, ButtonContainer } from "./button.styles";
-
-const getButton = (buttonType = "default") => {
+export const BUTTON_TYPES_CLASSES = {
+  default: "default",
+  google: "google-sign-in",
+  inverted: "inverted",
+};
+const getButton = (buttonType = BUTTON_TYPES_CLASSES.default) => {
   return {
-    default: ButtonContainer,
-    google: GoogleSingIn,
-    inverted: InvertedButton,
+    [BUTTON_TYPES_CLASSES.default]: ButtonContainer,
+    [BUTTON_TYPES_CLASSES.google]: GoogleSingIn,
+    [BUTTON_TYPES_CLASSES.inverted]: InvertedButton,
   }[buttonType];
 };
 const Button = ({ children, buttonType, ...otherProps }) => {
