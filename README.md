@@ -22,18 +22,6 @@ An e-commerce web application built with **ReactJS** and **Firebase**, offering 
 - 💳 Checkout Page  
 - 🔄 Persistent Cart State (based on logged-in user)  
 
-## 📁 Folder Structure (optional)
 
 
-## 🛡️ Firebase Rules (optional)
 
-```js
-// Firestore rules example
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth.uid == userId;
-    }
-  }
-}
